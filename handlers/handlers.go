@@ -40,7 +40,6 @@ func AddNewWinner(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusUnauthorized)
 		return
 	} else {
-
 		err := data.AddNewWinner(req.Body)
 		if err != nil {
 			res.WriteHeader(http.StatusUnprocessableEntity)
@@ -53,5 +52,12 @@ func AddNewWinner(res http.ResponseWriter, req *http.Request) {
 
 // WinnersHandler is the dispatcher for all /winners URL
 func WinnersHandler(res http.ResponseWriter, req *http.Request) {
-
+	switch req.Method {
+	case "GET":
+		ListWinners(res, req)
+	case "POST":
+		AddNewWinner(res, req)
+	default:
+		res.WriteHeader(http.StatusMethodNotAllowed)
+	}
 }
